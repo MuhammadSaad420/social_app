@@ -119,8 +119,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   String _validateEmail(String value) {
+    RegExp emailpattern = RegExp(
+        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$",
+        caseSensitive: false,
+        multiLine: false);
     if (value.isEmpty) {
       return "Field cannot be empty";
+    } else if (!emailpattern.hasMatch(value)) {
+      return "Enter a valid email";
     } else {
       email = value;
       return null;
