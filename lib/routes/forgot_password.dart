@@ -47,9 +47,6 @@ class _ForgotScreenState extends State<ForgotScreen> {
                         ],
                       ),
                     ),
-                    // SizedBox(
-                    //   height: isportrait(context) ? 0 : 10,
-                    // ),
                     Container(
                       child: Form(
                         key: _key,
@@ -101,10 +98,11 @@ class _ForgotScreenState extends State<ForgotScreen> {
                                     ),
                                     onPressed: () {
                                       Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LoginScreen()));
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => LoginScreen(),
+                                        ),
+                                      );
                                     },
                                   ),
                                 ],

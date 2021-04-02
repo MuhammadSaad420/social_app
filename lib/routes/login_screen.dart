@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:social_app/Model/user.dart';
 import 'package:social_app/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:social_app/widgets/social_list.dart';
 import 'package:social_app/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
-
 import '../constant.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,12 +14,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  var firstName;
+  var lastName;
   final _key = GlobalKey<FormState>();
   String password;
   String email;
-  var appBar = AppBar(
-    title: Text("App"),
-  );
+  var appBar = AppBar();
 
   bool isportrait(context) {
     return MediaQuery.of(context).orientation == Orientation.portrait;
@@ -123,10 +123,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       textAlign: TextAlign.center,
                       style: kDarkLightStyle,
                     ),
-                    Text(
-                      'Signup',
-                      textAlign: TextAlign.center,
-                      style: kDarkStyle,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => SignUpScreen(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Signup',
+                        textAlign: TextAlign.center,
+                        style: kDarkStyle,
+                      ),
                     ),
                   ],
                 )
@@ -168,7 +177,21 @@ class _LoginScreenState extends State<LoginScreen> {
           'http://3.131.4.14/api/v1/sessions?email=$email&password=$password'),
     );
     if (response.statusCode == 201) {
-      print('working fine');
+      setState(
+        () {
+          firstName = jsonDecode(response.body)['first_name'];
+          lastName = jsonDecode(response.body)['last_name'];
+        },
+      );
+      //print(firstName + lastName);
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (builder) => DashBoard(
+            fName: firstName,
+            lName: lastName,
+          ),
+        ),
+      );
 
       //return User.fromJson(jsonDecode(response.body));
     } else {

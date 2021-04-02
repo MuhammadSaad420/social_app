@@ -18,9 +18,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String email;
   String password;
   String confirmPassword;
-  var appBar = AppBar(
-    title: Text("Sign Up"),
-  );
+  var appBar = AppBar();
 
   bool isportrait(context) {
     return MediaQuery.of(context).orientation == Orientation.portrait;
@@ -35,111 +33,108 @@ class _SignUpScreenState extends State<SignUpScreen> {
       appBar: appBar,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-              child: Container(
-                height: isportrait(context)
-                    ? _pageSize - (_appBarSize + _notifySize)
-                    : null,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+            child: Container(
+              height: isportrait(context)
+                  ? _pageSize - (_appBarSize + _notifySize)
+                  : null,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    child: Column(
+                      children: [
+                        Text(
+                          'Sign Up',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 30),
+                        ),
+                        Text(
+                          'Fill the details and create your account',
+                          style: TextStyle(color: Colors.black45),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: isportrait(context) ? 0 : 10,
+                  ),
+                  Container(
+                    child: Form(
+                      key: _key,
                       child: Column(
                         children: [
-                          Text(
-                            'Sign Up',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 30),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              icon: Icon(Icons.person),
+                              hintText: "First Name",
+                            ),
+                            validator: _validateFName,
                           ),
-                          Text(
-                            'Fill the details and create your account',
-                            style: TextStyle(color: Colors.black45),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              icon: Icon(Icons.person),
+                              hintText: "Last Name",
+                            ),
+                            validator: _validateLName,
+                          ),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              icon: Icon(FontAwesomeIcons.mobile),
+                              hintText: "Phone Number",
+                            ),
+                            validator: _validateNumber,
+                          ),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              icon: Icon(Icons.mail),
+                              hintText: "Email",
+                            ),
+                            validator: _validateEmail,
+                          ),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              icon: Icon(Icons.vpn_key),
+                              hintText: "Password",
+                            ),
+                            obscureText: true,
+                            validator: _validatePassword,
+                          ),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              icon: Icon(Icons.vpn_key),
+                              hintText: "Confirm Password",
+                            ),
+                            obscureText: true,
+                            validator: _confirmPassword,
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: isportrait(context) ? 0 : 10,
-                    ),
-                    Container(
-                      child: Form(
-                        key: _key,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.person),
-                                hintText: "First Name",
-                              ),
-                              validator: _validateFName,
-                            ),
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.person),
-                                hintText: "Last Name",
-                              ),
-                              validator: _validateLName,
-                            ),
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                icon: Icon(FontAwesomeIcons.mobile),
-                                hintText: "Phone Number",
-                              ),
-                              validator: _validateNumber,
-                            ),
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.mail),
-                                hintText: "Email",
-                              ),
-                              validator: _validateEmail,
-                            ),
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.vpn_key),
-                                hintText: "Password",
-                              ),
-                              obscureText: true,
-                              validator: _validatePassword,
-                            ),
-                            TextFormField(
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.vpn_key),
-                                hintText: "Confirm Password",
-                              ),
-                              obscureText: true,
-                              validator: _confirmPassword,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: isportrait(context) ? 0 : 20,
-                    ),
-                    ReusableButton(
-                      function: () {
-                        //postUser();
-                        if (_key.currentState.validate()) {
-                          setState(() {});
-                          print(email);
-                          print(password);
-                          postUser();
-                        }
-                      },
-                      textColor: Colors.white,
-                      title: 'Sign Up',
-                      backgroundColor: kPurpleColor,
-                      border: Colors.transparent,
-                    ),
-                    SizedBox(
-                      height: isportrait(context) ? 0 : 5,
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    height: isportrait(context) ? 0 : 20,
+                  ),
+                  ReusableButton(
+                    function: () {
+                      //postUser();
+                      if (_key.currentState.validate()) {
+                        setState(() {});
+                        print(email);
+                        print(password);
+                        postUser();
+                      }
+                    },
+                    textColor: Colors.white,
+                    title: 'Sign Up',
+                    backgroundColor: kPurpleColor,
+                    border: Colors.transparent,
+                  ),
+                  SizedBox(
+                    height: isportrait(context) ? 0 : 5,
+                  ),
+                ],
               ),
             ),
           ),
@@ -222,15 +217,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         '''&PushToken=pushasdfasd4cwerqwecda4qrcadqd3der3rqwer33qe&user[password]=''' +
         password;
     url = url + '''&user[password_confirmation]=''' + confirmPassword;
-    print(url);
 
     final response = await http.post(
       Uri.parse(url),
     );
     if (response.statusCode == 201) {
       print('working fine');
-
-      //return User.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load data');
     }

@@ -5,9 +5,7 @@ import 'package:social_app/widgets/widgets.dart';
 import 'package:social_app/constant.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  var appBar = AppBar(
-    title: Text("App"),
-  );
+  var appBar = AppBar();
 
   bool isportrait(context) {
     return MediaQuery.of(context).orientation == Orientation.portrait;
@@ -100,10 +98,19 @@ class WelcomeScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: kDarkLightStyle,
                       ),
-                      Text(
-                        'Signup',
-                        textAlign: TextAlign.center,
-                        style: kDarkStyle,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => SignUpScreen(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Signup',
+                          textAlign: TextAlign.center,
+                          style: kDarkStyle,
+                        ),
                       ),
                     ],
                   )
