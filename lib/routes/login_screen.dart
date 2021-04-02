@@ -15,18 +15,30 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _key = GlobalKey<FormState>();
-
-  String email;
-
   String password;
+  String email;
+  var appBar = AppBar(
+    title: Text("App"),
+  );
+
+  bool isportrait(context) {
+    return MediaQuery.of(context).orientation == Orientation.portrait;
+  }
 
   @override
   Widget build(BuildContext context) {
+    var _pageSize = MediaQuery.of(context).size.height;
+    var _notifySize = MediaQuery.of(context).padding.top;
+    var _appBarSize = appBar.preferredSize.height;
     return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
           child: Container(
+            height: isportrait(context)
+                ? _pageSize - (_appBarSize + _notifySize)
+                : null,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -67,8 +79,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           // Validate returns true if the form is valid, or false otherwise.
                           if (_key.currentState.validate()) {
                             setState(() {});
-                            print(email);
-                            print(password);
                             checkUser();
                           }
                         },
@@ -81,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 40,
+                  height: isportrait(context) ? 0 : 10,
                 ),
                 Text(
                   'or via Social Media',
@@ -89,11 +99,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: kDarkStyle,
                 ),
                 SizedBox(
-                  height: 10,
+                  height: isportrait(context) ? 0 : 10,
                 ),
                 SocialListWidget(),
                 SizedBox(
-                  height: 10,
+                  height: isportrait(context) ? 0 : 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

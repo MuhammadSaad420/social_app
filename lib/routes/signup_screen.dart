@@ -18,18 +18,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String email;
   String password;
   String confirmPassword;
+  var appBar = AppBar(
+    title: Text("Sign Up"),
+  );
+
+  bool isportrait(context) {
+    return MediaQuery.of(context).orientation == Orientation.portrait;
+  }
 
   @override
   Widget build(BuildContext context) {
+    var _pageSize = MediaQuery.of(context).size.height;
+    var _notifySize = MediaQuery.of(context).padding.top;
+    var _appBarSize = appBar.preferredSize.height;
     return Scaffold(
+      appBar: appBar,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
               child: Container(
+                height: isportrait(context)
+                    ? _pageSize - (_appBarSize + _notifySize)
+                    : null,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Container(
                       child: Column(
@@ -45,6 +60,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ],
                       ),
+                    ),
+                    SizedBox(
+                      height: isportrait(context) ? 0 : 10,
                     ),
                     Container(
                       child: Form(
@@ -95,28 +113,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               obscureText: true,
                               validator: _confirmPassword,
                             ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            ReusableButton(
-                              function: () {
-                                //postUser();
-                                if (_key.currentState.validate()) {
-                                  setState(() {});
-                                  print(email);
-                                  print(password);
-                                  postUser();
-                                }
-                              },
-                              textColor: Colors.white,
-                              title: 'Sign Up',
-                              backgroundColor: kPurpleColor,
-                              border: Colors.transparent,
-                            ),
                           ],
                         ),
                       ),
-                    )
+                    ),
+                    SizedBox(
+                      height: isportrait(context) ? 0 : 20,
+                    ),
+                    ReusableButton(
+                      function: () {
+                        //postUser();
+                        if (_key.currentState.validate()) {
+                          setState(() {});
+                          print(email);
+                          print(password);
+                          postUser();
+                        }
+                      },
+                      textColor: Colors.white,
+                      title: 'Sign Up',
+                      backgroundColor: kPurpleColor,
+                      border: Colors.transparent,
+                    ),
+                    SizedBox(
+                      height: isportrait(context) ? 0 : 5,
+                    ),
                   ],
                 ),
               ),
