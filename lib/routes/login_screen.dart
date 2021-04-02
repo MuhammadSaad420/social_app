@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:social_app/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:social_app/widgets/social_list.dart';
 import 'package:social_app/widgets/widgets.dart';
@@ -69,8 +69,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
-                            'Forgot Password',
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ForgotScreen(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'Forgot Password',
+                            ),
                           ),
                         ],
                       ),
