@@ -13,7 +13,7 @@ class MenuItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(15),
         child: Row(
           children: <Widget>[
             Icon(

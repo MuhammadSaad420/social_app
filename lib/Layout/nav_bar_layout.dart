@@ -9,7 +9,7 @@ class NavBarLayout extends StatefulWidget {
 }
 
 class _NavBarLayoutState extends State<NavBarLayout> {
-  bool isOpened = true;
+  bool isOpened = false;
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -27,7 +27,7 @@ class _NavBarLayoutState extends State<NavBarLayout> {
                     child: Column(
                       children: <Widget>[
                         SizedBox(
-                          height: 50,
+                          height: 20,
                         ),
                         ListTile(
                           title: Text(
@@ -100,11 +100,11 @@ class _NavBarLayoutState extends State<NavBarLayout> {
 
   Divider buildDivider() {
     return Divider(
-      height: 64,
+      height: 20,
       thickness: 0.5,
       color: Colors.white.withOpacity(0.3),
-      indent: 32,
-      endIndent: 32,
+      indent: 20,
+      endIndent: 20,
     );
   }
 }

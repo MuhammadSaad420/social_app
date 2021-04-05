@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         primarySwatch: Colors.purple,
       ),
-      home: DashBoard(),
+      home: WelcomeScreen(),
     );
   }
 }
