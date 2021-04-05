@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:social_app/Layout/nav_bar_layout.dart';
+import 'package:social_app/routes/routes.dart';
 
 class DashBoard extends StatelessWidget {
   final fName;
@@ -8,11 +10,11 @@ class DashBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          child: Text(fName + ' ' + lName),
-        ),
-      ),
-    );
+        body: Stack(
+      children: [
+        FrontScreen(),
+        NavBarLayout(),
+      ],
+    ));
   }
 }
