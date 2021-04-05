@@ -7,10 +7,6 @@ import 'package:social_app/constant.dart';
 class WelcomeScreen extends StatelessWidget {
   var appBar = AppBar();
 
-  bool isportrait(context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait;
-  }
-
   @override
   Widget build(BuildContext context) {
     var _pageSize = MediaQuery.of(context).size.height;
@@ -42,39 +38,7 @@ class WelcomeScreen extends StatelessWidget {
                   SizedBox(
                     height: isportrait(context) ? 0 : 10,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ReusableButton(
-                        function: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginScreen(),
-                            ),
-                          );
-                        },
-                        textColor: Colors.white,
-                        title: 'Login',
-                        backgroundColor: kPurpleColor,
-                        border: Colors.transparent,
-                      ),
-                      ReusableButton(
-                        function: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SignUpScreen(),
-                            ),
-                          );
-                        },
-                        textColor: Colors.black,
-                        title: 'Sign Up',
-                        backgroundColor: Colors.white,
-                        border: Colors.black,
-                      )
-                    ],
-                  ),
+                  _buildRowOfButtons(context),
                   SizedBox(
                     height: isportrait(context) ? 0 : 10,
                   ),
@@ -121,5 +85,45 @@ class WelcomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Row _buildRowOfButtons(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        ReusableButton(
+          function: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LoginScreen(),
+              ),
+            );
+          },
+          textColor: Colors.white,
+          title: 'Login',
+          backgroundColor: kPurpleColor,
+          border: Colors.transparent,
+        ),
+        ReusableButton(
+          function: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SignUpScreen(),
+              ),
+            );
+          },
+          textColor: Colors.black,
+          title: 'Sign Up',
+          backgroundColor: Colors.white,
+          border: Colors.black,
+        )
+      ],
+    );
+  }
+
+  bool isportrait(context) {
+    return MediaQuery.of(context).orientation == Orientation.portrait;
   }
 }

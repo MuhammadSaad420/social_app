@@ -20,10 +20,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String confirmPassword;
   var appBar = AppBar();
 
-  bool isportrait(context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait;
-  }
-
   @override
   Widget build(BuildContext context) {
     var _pageSize = MediaQuery.of(context).size.height;
@@ -141,6 +137,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  bool isportrait(context) {
+    return MediaQuery.of(context).orientation == Orientation.portrait;
   }
 
   String _validateEmail(String value) {

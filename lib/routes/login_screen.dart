@@ -21,10 +21,6 @@ class _LoginScreenState extends State<LoginScreen> {
   String email;
   var appBar = AppBar();
 
-  bool isportrait(context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait;
-  }
-
   @override
   Widget build(BuildContext context) {
     var _pageSize = MediaQuery.of(context).size.height;
@@ -70,14 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ForgotScreen(),
-                                ),
-                              );
-                            },
+                            onTap: goToForgotScreen,
                             child: Text(
                               'Forgot Password',
                             ),
@@ -85,13 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       ReusableButton(
-                        function: () async {
-                          // Validate returns true if the form is valid, or false otherwise.
-                          if (_key.currentState.validate()) {
-                            setState(() {});
-                            checkUser();
-                          }
-                        },
+                        function: loginUser,
                         textColor: Colors.white,
                         title: 'Login',
                         backgroundColor: kPurpleColor,
@@ -124,13 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: kDarkLightStyle,
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => SignUpScreen(),
-                          ),
-                        );
-                      },
+                      onTap: goToSignup,
                       child: Text(
                         'Signup',
                         textAlign: TextAlign.center,
@@ -145,6 +122,34 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void loginUser() async {
+    if (_key.currentState.validate()) {
+      setState(() {});
+      checkUser();
+    }
+  }
+
+  void goToForgotScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ForgotScreen(),
+      ),
+    );
+  }
+
+  void goToSignup() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => SignUpScreen(),
+      ),
+    );
+  }
+
+  bool isportrait(context) {
+    return MediaQuery.of(context).orientation == Orientation.portrait;
   }
 
   String _validateEmail(String value) {
