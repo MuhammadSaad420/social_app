@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_app/Model/user.dart';
 import 'package:social_app/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _key = GlobalKey<FormState>();
   String password;
   String email;
+  DateTime _lastQuitTime;
   var appBar = AppBar(
     automaticallyImplyLeading: false,
   );
@@ -28,97 +31,115 @@ class _LoginScreenState extends State<LoginScreen> {
     var _pageSize = MediaQuery.of(context).size.height;
     var _notifySize = MediaQuery.of(context).padding.top;
     var _appBarSize = appBar.preferredSize.height;
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-          child: Container(
-            height: isportrait(context)
-                ? _pageSize - (_appBarSize + _notifySize)
-                : null,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Image.asset('images/login.png'),
-                Form(
-                  key: _key,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.mail),
-                          hintText: "Email",
-                        ),
-                        validator: _validateEmail,
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.vpn_key),
-                          hintText: "Password",
-                        ),
-                        obscureText: true,
-                        validator: _validatePassword,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          GestureDetector(
-                            onTap: goToForgotScreen,
-                            child: Text(
-                              'Forgot Password',
-                            ),
+    return WillPopScope(
+      onWillPop: () async {
+        if (_lastQuitTime == null ||
+            DateTime.now().difference(_lastQuitTime).inSeconds > 1) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Press again Back Button to exit'),
+            ),
+          );
+          _lastQuitTime = DateTime.now();
+          return false;
+        } else {
+          print('sign out');
+          SystemNavigator.pop();
+          return true;
+        }
+      },
+      child: Scaffold(
+        appBar: appBar,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            child: Container(
+              height: isportrait(context)
+                  ? _pageSize - (_appBarSize + _notifySize)
+                  : null,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Image.asset('images/login.png'),
+                  Form(
+                    key: _key,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            icon: Icon(Icons.mail),
+                            hintText: "Email",
                           ),
-                        ],
+                          validator: _validateEmail,
+                        ),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            icon: Icon(Icons.vpn_key),
+                            hintText: "Password",
+                          ),
+                          obscureText: true,
+                          validator: _validatePassword,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            GestureDetector(
+                              onTap: goToForgotScreen,
+                              child: Text(
+                                'Forgot Password',
+                              ),
+                            ),
+                          ],
+                        ),
+                        ReusableButton(
+                          function: loginUser,
+                          textColor: Colors.white,
+                          title: 'Login',
+                          backgroundColor: kPurpleColor,
+                          border: Colors.transparent,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: isportrait(context) ? 0 : 10,
+                  ),
+                  Text(
+                    'or via Social Media',
+                    textAlign: TextAlign.center,
+                    style: kDarkStyle,
+                  ),
+                  SizedBox(
+                    height: isportrait(context) ? 0 : 10,
+                  ),
+                  SocialListWidget(),
+                  SizedBox(
+                    height: isportrait(context) ? 0 : 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Don\'t have an account?',
+                        textAlign: TextAlign.center,
+                        style: kDarkLightStyle,
                       ),
-                      ReusableButton(
-                        function: loginUser,
-                        textColor: Colors.white,
-                        title: 'Login',
-                        backgroundColor: kPurpleColor,
-                        border: Colors.transparent,
+                      GestureDetector(
+                        onTap: goToSignup,
+                        child: Text(
+                          'Signup',
+                          textAlign: TextAlign.center,
+                          style: kDarkStyle,
+                        ),
                       ),
                     ],
-                  ),
-                ),
-                SizedBox(
-                  height: isportrait(context) ? 0 : 10,
-                ),
-                Text(
-                  'or via Social Media',
-                  textAlign: TextAlign.center,
-                  style: kDarkStyle,
-                ),
-                SizedBox(
-                  height: isportrait(context) ? 0 : 10,
-                ),
-                SocialListWidget(),
-                SizedBox(
-                  height: isportrait(context) ? 0 : 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Don\'t have an account?',
-                      textAlign: TextAlign.center,
-                      style: kDarkLightStyle,
-                    ),
-                    GestureDetector(
-                      onTap: goToSignup,
-                      child: Text(
-                        'Signup',
-                        textAlign: TextAlign.center,
-                        style: kDarkStyle,
-                      ),
-                    ),
-                  ],
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -191,6 +212,8 @@ class _LoginScreenState extends State<LoginScreen> {
         },
       );
       //print(firstName + lastName);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('email', email);
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (builder) =>

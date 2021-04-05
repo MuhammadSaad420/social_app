@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_app/routes/welcome_screen.dart';
 
 import 'routes/routes.dart';
 
-void main() {
-  runApp(MyApp());
+var email;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  email = prefs.getString('email') ?? ' ';
+  print(email);
+  runApp(
+    MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -16,7 +24,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         primarySwatch: Colors.purple,
       ),
-      home: WelcomeScreen(),
+      home: email == ' ' ? WelcomeScreen() : DashBoard(),
     );
   }
 }

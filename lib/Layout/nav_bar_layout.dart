@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_app/Model/custom_clipper.dart';
 import 'package:social_app/constant.dart';
 import 'package:social_app/routes/routes.dart';
@@ -38,14 +39,18 @@ class _NavBarLayoutState extends State<NavBarLayout> {
                         ),
                         ListTile(
                           title: Text(
-                            widget.fName + ' ' + widget.lName,
+                            widget.fName == null
+                                ? " "
+                                : widget.fName + ' ' + widget.lName == null
+                                    ? " "
+                                    : widget.lName,
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 30,
                                 fontWeight: FontWeight.w800),
                           ),
                           subtitle: Text(
-                            widget.email,
+                            widget.email == null ? " " : widget.email,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -121,7 +126,9 @@ class _NavBarLayoutState extends State<NavBarLayout> {
               }),
           ReusedMaterialButton(
               title: 'Yes',
-              function: () {
+              function: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.remove('email');
                 Navigator.push(
                   context,
                   MaterialPageRoute(

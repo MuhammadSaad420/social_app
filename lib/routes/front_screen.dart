@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:social_app/widgets/widgets.dart';
 
 class FrontScreen extends StatefulWidget {
@@ -21,8 +22,6 @@ class _FrontScreenState extends State<FrontScreen> {
       onWillPop: () async {
         if (_lastQuitTime == null ||
             DateTime.now().difference(_lastQuitTime).inSeconds > 1) {
-          print('Press again Back Button exit');
-
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Press again Back Button to exit'),
@@ -32,7 +31,7 @@ class _FrontScreenState extends State<FrontScreen> {
           return false;
         } else {
           print('sign out');
-          Navigator.of(context).pop(true);
+          SystemNavigator.pop();
           return true;
         }
       },
