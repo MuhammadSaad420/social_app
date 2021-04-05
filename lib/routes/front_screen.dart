@@ -16,26 +16,47 @@ class _FrontScreenState extends State<FrontScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _children[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 20,
-        onTap: onTabTapped, // new
-        currentIndex: _currentIndex, // new
-        items: [
-          new BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('All Posts'),
-          ),
-          new BottomNavigationBarItem(
-            icon: Icon(Icons.mail),
-            title: Text('My Posts'),
-          ),
-          new BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            title: Text('Profile'),
-          )
-        ],
+    DateTime _lastQuitTime;
+    return WillPopScope(
+      onWillPop: () async {
+        if (_lastQuitTime == null ||
+            DateTime.now().difference(_lastQuitTime).inSeconds > 1) {
+          print('Press again Back Button exit');
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Press again Back Button to exit'),
+            ),
+          );
+          _lastQuitTime = DateTime.now();
+          return false;
+        } else {
+          print('sign out');
+          Navigator.of(context).pop(true);
+          return true;
+        }
+      },
+      child: Scaffold(
+        body: _children[_currentIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          elevation: 20,
+          onTap: onTabTapped, // new
+          currentIndex: _currentIndex, // new
+          items: [
+            new BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text('All Posts'),
+            ),
+            new BottomNavigationBarItem(
+              icon: Icon(Icons.mail),
+              title: Text('My Posts'),
+            ),
+            new BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              title: Text('Profile'),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -6,79 +6,101 @@ import 'package:social_app/constant.dart';
 
 class WelcomeScreen extends StatelessWidget {
   var appBar = AppBar();
-
+  DateTime _lastQuitTime;
   @override
   Widget build(BuildContext context) {
     var _pageSize = MediaQuery.of(context).size.height;
     var _notifySize = MediaQuery.of(context).padding.top;
     var _appBarSize = appBar.preferredSize.height;
-    return Scaffold(
-      appBar: appBar,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-          child: SingleChildScrollView(
-            child: Container(
-              height: isportrait(context)
-                  ? _pageSize - (_appBarSize + _notifySize)
-                  : null,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Image.asset('images/welcome.png'),
-                  Text(
-                    'Welcome',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                  SizedBox(
-                    height: isportrait(context) ? 0 : 5,
-                  ),
-                  Text(kAppDescription,
-                      textAlign: TextAlign.center, style: kDarkLightStyle),
-                  SizedBox(
-                    height: isportrait(context) ? 0 : 10,
-                  ),
-                  _buildRowOfButtons(context),
-                  SizedBox(
-                    height: isportrait(context) ? 0 : 10,
-                  ),
-                  Text(
-                    'or via Social Media',
-                    textAlign: TextAlign.center,
-                    style: kDarkStyle,
-                  ),
-                  SizedBox(
-                    height: isportrait(context) ? 0 : 10,
-                  ),
-                  SocialListWidget(),
-                  SizedBox(
-                    height: isportrait(context) ? 0 : 5,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Don\'t have an account?',
-                        textAlign: TextAlign.center,
-                        style: kDarkLightStyle,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => SignUpScreen(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'Signup',
+
+    return WillPopScope(
+      onWillPop: () async {
+        if (_lastQuitTime == null ||
+            DateTime.now().difference(_lastQuitTime).inSeconds > 1) {
+          print('Press again Back Button exit');
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Press again Back Button to exit'),
+            ),
+          );
+          _lastQuitTime = DateTime.now();
+          return false;
+        } else {
+          print('sign out');
+          Navigator.of(context).pop(true);
+          return true;
+        }
+      },
+      child: Scaffold(
+        appBar: appBar,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            child: SingleChildScrollView(
+              child: Container(
+                height: isportrait(context)
+                    ? _pageSize - (_appBarSize + _notifySize)
+                    : null,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.asset('images/welcome.png'),
+                    Text(
+                      'Welcome',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    SizedBox(
+                      height: isportrait(context) ? 0 : 5,
+                    ),
+                    Text(kAppDescription,
+                        textAlign: TextAlign.center, style: kDarkLightStyle),
+                    SizedBox(
+                      height: isportrait(context) ? 0 : 10,
+                    ),
+                    _buildRowOfButtons(context),
+                    SizedBox(
+                      height: isportrait(context) ? 0 : 10,
+                    ),
+                    Text(
+                      'or via Social Media',
+                      textAlign: TextAlign.center,
+                      style: kDarkStyle,
+                    ),
+                    SizedBox(
+                      height: isportrait(context) ? 0 : 10,
+                    ),
+                    SocialListWidget(),
+                    SizedBox(
+                      height: isportrait(context) ? 0 : 5,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Don\'t have an account?',
                           textAlign: TextAlign.center,
-                          style: kDarkStyle,
+                          style: kDarkLightStyle,
                         ),
-                      ),
-                    ],
-                  )
-                ],
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => SignUpScreen(),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Signup',
+                            textAlign: TextAlign.center,
+                            style: kDarkStyle,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),

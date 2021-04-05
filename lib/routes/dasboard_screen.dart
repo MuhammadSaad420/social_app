@@ -5,18 +5,25 @@ import 'package:social_app/routes/routes.dart';
 class DashBoard extends StatelessWidget {
   final fName;
   final lName;
+  final email;
 
-  const DashBoard({Key key, this.fName, this.lName}) : super(key: key);
+  const DashBoard({Key key, this.fName, this.lName, this.email})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: Stack(
-        children: [
-          FrontScreen(),
-          NavBarLayout(),
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            FrontScreen(),
+            NavBarLayout(
+              fName: fName,
+              lName: lName,
+              email: email,
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }

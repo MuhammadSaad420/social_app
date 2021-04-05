@@ -72,42 +72,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
                           setState(() {});
                           bool success = await forgotPassword();
                           if (success) {
-                            showDialog(
-                              context: context,
-                              builder: (_) => AlertDialog(
-                                title: Text('Password Reset'),
-                                content: Text(
-                                    'Check your email address to reset password'),
-                                actions: [
-                                  MaterialButton(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Container(
-                                        height: 30,
-                                        width: 60,
-                                        color: kPurpleColor,
-                                        child: Center(
-                                          child: Text(
-                                            "ok",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => LoginScreen(),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            );
+                            buildShowDialog(context);
                           }
                         }
                       },
@@ -122,6 +87,28 @@ class _ForgotScreenState extends State<ForgotScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Future buildShowDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Password Reset'),
+        content: Text('Check your email address to reset password'),
+        actions: [
+          ReusedMaterialButton(
+              title: 'ok',
+              function: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginScreen(),
+                  ),
+                );
+              })
+        ],
       ),
     );
   }

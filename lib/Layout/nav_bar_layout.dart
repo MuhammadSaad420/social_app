@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:social_app/Model/custom_clipper.dart';
 import 'package:social_app/constant.dart';
+import 'package:social_app/routes/routes.dart';
 import 'package:social_app/widgets/widgets.dart';
 
 class NavBarLayout extends StatefulWidget {
+  final fName;
+  final lName;
+  final email;
+
+  const NavBarLayout({Key key, this.fName, this.lName, this.email})
+      : super(key: key);
   @override
   _NavBarLayoutState createState() => _NavBarLayoutState();
 }
@@ -31,14 +38,14 @@ class _NavBarLayoutState extends State<NavBarLayout> {
                         ),
                         ListTile(
                           title: Text(
-                            "Saad",
+                            widget.fName + ' ' + widget.lName,
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 30,
                                 fontWeight: FontWeight.w800),
                           ),
                           subtitle: Text(
-                            "saad.oraxtech@gmail.com",
+                            widget.email,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -62,6 +69,9 @@ class _NavBarLayoutState extends State<NavBarLayout> {
                         MenuItem(
                           icon: Icons.exit_to_app,
                           title: "Logout",
+                          onTap: () {
+                            buildShowDialog(context);
+                          },
                         ),
                       ],
                     ),
@@ -74,7 +84,6 @@ class _NavBarLayoutState extends State<NavBarLayout> {
             alignment: Alignment(0, -0.9),
             child: InkWell(
               onTap: () {
-                print('working');
                 setState(() {
                   isOpened = !isOpened;
                 });
@@ -93,6 +102,33 @@ class _NavBarLayoutState extends State<NavBarLayout> {
               ),
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  Future buildShowDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Warning!'),
+        content: Text('Are you sure you want to logout?'),
+        actions: [
+          ReusedMaterialButton(
+              title: 'No',
+              function: () {
+                Navigator.pop(context);
+              }),
+          ReusedMaterialButton(
+              title: 'Yes',
+              function: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginScreen(),
+                  ),
+                );
+              })
         ],
       ),
     );

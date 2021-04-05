@@ -19,7 +19,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final _key = GlobalKey<FormState>();
   String password;
   String email;
-  var appBar = AppBar();
+  var appBar = AppBar(
+    automaticallyImplyLeading: false,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -191,10 +193,8 @@ class _LoginScreenState extends State<LoginScreen> {
       //print(firstName + lastName);
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (builder) => DashBoard(
-            fName: firstName,
-            lName: lastName,
-          ),
+          builder: (builder) =>
+              DashBoard(fName: firstName, lName: lastName, email: email),
         ),
       );
 
