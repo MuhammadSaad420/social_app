@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_app/Model/custom_clipper.dart';
 import 'package:social_app/constant.dart';
+import 'package:social_app/routes/contact_screen.dart';
 import 'package:social_app/routes/routes.dart';
 import 'package:social_app/widgets/widgets.dart';
 
@@ -68,7 +69,12 @@ class _NavBarLayoutState extends State<NavBarLayout> {
                         MenuItem(
                           icon: Icons.contact_mail,
                           title: "Contact Us",
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => ContactScreen()),
+                            );
+                          },
                         ),
                         buildDivider(),
                         MenuItem(

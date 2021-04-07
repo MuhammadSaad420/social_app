@@ -3,20 +3,30 @@ import 'package:flutter/services.dart';
 import 'package:social_app/widgets/widgets.dart';
 
 class FrontScreen extends StatefulWidget {
+  final fName;
+  final lName;
+
+  const FrontScreen({Key key, this.fName, this.lName}) : super(key: key);
   @override
   _FrontScreenState createState() => _FrontScreenState();
 }
 
 class _FrontScreenState extends State<FrontScreen> {
+  String first;
+  String last;
   int _currentIndex = 0;
 
-  final List<Widget> _children = [
-    AllPostWidget(),
-    MyPostWidget(),
-    ProfileWidget()
-  ];
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _children = [
+      AllPostWidget(),
+      MyPostWidget(),
+      ProfileWidget(
+        fName: widget.fName,
+        lName: widget.lName,
+      )
+    ];
+
     DateTime _lastQuitTime;
     return WillPopScope(
       onWillPop: () async {

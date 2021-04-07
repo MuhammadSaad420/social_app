@@ -15,7 +15,10 @@ class DashBoard extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            FrontScreen(),
+            FrontScreen(
+              fName: fName,
+              lName: lName,
+            ),
             NavBarLayout(
               fName: fName,
               lName: lName,
